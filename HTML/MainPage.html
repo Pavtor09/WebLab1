@@ -27,15 +27,15 @@
             margin-top: 2%;
         }
         
-        .Input-Checknox {
+        .Input-Checkbox {
             width: 50%;
             padding: 2px;
             margin-left: 10%;
             box-sizing: border-box;
         }
         
-        .Table-Cell {
-            width: 25%;
+        .Right-Row {
+            width: 30%;
             padding: 20px;
             box-sizing: border-box;
             background-color: #f0f0f0;
@@ -59,12 +59,11 @@
             align-items: center;
             margin: 0 5px;
             white-space: nowrap;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 5px;
             transform: scale(1.2);
         }
+        /* .checkbox-item input[type="checkbox"] {
+            margin-right: 5px;
+        } */
         
         .checkbox-item label {
             font-family: Arial, sans-serif;
@@ -78,6 +77,10 @@
         .Input-Cell {
             height: 50vh;
         }
+        
+        .Icons {
+            scale: 0.3;
+        }
     </style>
 </head>
 
@@ -90,14 +93,12 @@
                 </div>
             </td>
 
-            <td>
-
-            </td>
+            <td><img src="Assets/github-mark.png" alt="git-hub" class="Icons"></td>
         </tr>
 
         <tr>
-            <td width="75%" valign="middle" class="Input-Cell">
-                <div class="Input-Checknox">
+            <td class="Input-Cell">
+                <div class="Input-Checkbox">
 
                     <div class="checkbox-container">
                         <div class="checkbox-item">
@@ -149,10 +150,10 @@
 
                 </div>
             </td>
-            <td width="25%" valign="center">
-                <div class="Table-Cell">
-                    Aboba
-                </div>
+            <td class="Right-Row">
+
+                Aboba
+
             </td>
         </tr>
 
