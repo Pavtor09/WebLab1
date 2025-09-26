@@ -7,25 +7,34 @@
     <title>Document</title>
     <style>
         body {
-            color: #333;
+            margin: 0;
+            color: #000000;
             font-size: 16px;
-            background-color: white;
+            background-color: rgb(244, 244, 244);
         }
         
         .header {
             font-family: serif;
+            background-color: rgb(39, 35, 35);
+            border-bottom: 2px solid rgb(0, 0, 0);
+            padding: 15px 10%;
+            height: 7vh;
+        }
+        
+        table {
+            border-collapse: collapse;
         }
         /* Информация о студенте */
         
         #student-info {
-            color: #626262;
+            color: #c9c9c9;
             font-weight: bold;
         }
-        
-        .header p {
+        /* .header p {
             margin-left: 10%;
+            margin-right: 10%;
             margin-top: 2%;
-        }
+        } */
         
         .Input-Checkbox {
             width: 50%;
@@ -38,7 +47,6 @@
             width: 30%;
             padding: 20px;
             box-sizing: border-box;
-            background-color: #f0f0f0;
         }
         
         .checkbox-container {
@@ -46,7 +54,7 @@
             border-radius: 8px;
             padding: 15px;
             margin: 20px;
-            background-color: #f9f9f9;
+            background-color: #ff0000;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -61,9 +69,10 @@
             white-space: nowrap;
             transform: scale(1.2);
         }
-        /* .checkbox-item input[type="checkbox"] {
+        
+        .checkbox-item input[type="checkbox"] {
             margin-right: 5px;
-        } */
+        }
         
         .checkbox-item label {
             font-family: Arial, sans-serif;
@@ -72,6 +81,7 @@
         
         td {
             vertical-align: middle;
+            padding: 0;
         }
         
         .Input-Cell {
@@ -79,28 +89,41 @@
         }
         
         .Icons {
-            scale: 0.3;
+            width: 60px;
+            height: 60px;
+        }
+        
+        .Icons-holder {
+            text-align: right;
+        }
+        
+        img.Icons {
+            display: block;
+            margin-right: 5vh;
+            margin-left: auto;
         }
     </style>
 </head>
 
 <body>
     <table width="100%" cellspacing="0" cellpadding="0">
-        <tr>
+        <tr class="header">
             <td>
-                <div class="header">
-                    <p id="student-info"><b>Торопов Павел <br> P3119 <br> Вариант №467742</b></p>
-                </div>
+
+                <p id="student-info"><b>Торопов Павел P3119 <br> Вариант №467742</b></p>
+
             </td>
 
-            <td><img src="Assets/github-mark.png" alt="git-hub" class="Icons"></td>
+            <td class="Icons-holder"><img src="Assets/github-mark-white.png" alt="git-hub" class="Icons"></td>
         </tr>
 
         <tr>
             <td class="Input-Cell">
-                <div class="Input-Checkbox">
 
+                <div class="Input-Checkbox">
+                    <span>X =</span>
                     <div class="checkbox-container">
+
                         <div class="checkbox-item">
                             <input type="checkbox" id="value-2" name="values" value="-2">
                             <label for="value-2">-2</label>
