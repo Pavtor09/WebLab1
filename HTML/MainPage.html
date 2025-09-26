@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Наследование */
+        
+        body {
+            color: #333;
+            font-size: 16px;
+            background-color: white;
+        }
+        /* Селектор класса */
+        
+        .header {
+            font-family: serif;
+        }
+        /* Селектор идентификатора */
+        
+        #student-info {
+            color: #626262;
+            font-weight: bold;
+        }
+        /* Селектор потомства */
+        
+        .header p {
+            margin-left: 10%;
+            margin-top: 2%;
+        }
+        /* Селектор дочерних элементов */
+        /* Каскадирование */
+        
+        .special-text {
+            color: blue;
+        }
+        
+        .special-text {
+            color: red;
+            /* Победит этот стиль */
+        }
+        
+        .Input-Cell {
+            width: 50%;
+            padding: 2px;
+            margin-left: 10%;
+            box-sizing: border-box;
+        }
+        
+        .Table-Cell {
+            width: 25%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+        }
+        
+        .checkbox-container {
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 0 5px;
+            white-space: nowrap;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 5px;
+            transform: scale(1.2);
+        }
+        
+        .checkbox-item label {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td colspan="0" height="100">
+                <div class="header">
+                    <p id="student-info"><b>Торопов Павел <br> P3119 <br> Вариант №467742</b></p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="75%" valign="center">
+                <div class="Input-Cell">
+
+                    <div class="checkbox-container">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value-2" name="values" value="-2">
+                            <label for="value-2">-2</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value-1.5" name="values" value="-1.5">
+                            <label for="value-1.5">-1.5</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value-1" name="values" value="-1">
+                            <label for="value-1">-1</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value-0.5" name="values" value="-0.5">
+                            <label for="value-0.5">-0.5</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value0" name="values" value="0">
+                            <label for="value0">0</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value0.5" name="values" value="0.5">
+                            <label for="value0.5">0.5</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value1" name="values" value="1">
+                            <label for="value1">1</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value1.5" name="values" value="1.5">
+                            <label for="value1.5">1.5</label>
+                        </div>
+
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="value2" name="values" value="2">
+                            <label for="value2">2</label>
+                        </div>
+                    </div>
+
+
+                </div>
+            </td>
+            <td width="25%" valign="center">
+                <div class="Table-Cell">
+                    Aboba
+                </div>
+            </td>
+        </tr>
+
+    </table>
+</body>
+
+</html>
