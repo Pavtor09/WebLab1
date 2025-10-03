@@ -35,7 +35,7 @@ function drawFigure(rawR) {
   const cy = canvas.height / 2;
 
   ctx.fillStyle = '#379cff';
-
+  
   // Рисуем четверть круга (дугу)
   ctx.beginPath();
   ctx.moveTo(cx, cy);
@@ -58,7 +58,8 @@ function drawFigure(rawR) {
   ctx.lineTo(cx, cy-R);
   ctx.closePath();
   ctx.fill();
-
+  
+  drawGrid(ctx, cx, cy, upscale, 0.5, canvas.width, canvas.height);
   // Оси координат
   ctx.strokeStyle = "black";
   ctx.lineWidth = 2;
@@ -76,6 +77,8 @@ function drawFigure(rawR) {
   ctx.stroke();
 
   // Подписи R, R/2
+  
+  if (rawR > 0){
   ctx.fillStyle = "#000";
   ctx.font = "12px serif";
   ctx.fillText(-rawR, cx - R, cy + 12);
@@ -87,5 +90,67 @@ function drawFigure(rawR) {
   ctx.fillText(rawR, cx + 2, cy - R + 12);
   ctx.fillText(rawR/2, cx + 2, cy - R / 2 + 12);
   ctx.fillText(-rawR/2, cx + 2, cy + R / 2 + 12);
+  }
 }
-drawFigure();
+
+function drawGrid(ctx, cx, cy, scale, step, canvasWidth, canvasHeight) {
+  ctx.save(); // Сохраняем текущие настройки
+  ctx.strokeStyle = "#cccccc"; // Цвет сетки
+  ctx.lineWidth = 1;
+
+  // Вертикальные линии
+  for (let x = cx; x <= canvasWidth; x += step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvasHeight);
+    ctx.stroke();
+  }
+  for (let x = cx - step * scale; x >= 0; x -= step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvasHeight);
+    ctx.stroke();
+  }
+
+  // Горизонтальные линии
+  for (let y = cy; y <= canvasHeight; y += step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvasWidth, y);
+    ctx.stroke();
+  }
+  for (let y = cy - step * scale; y >= 0; y -= step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvasWidth, y);
+    ctx.stroke();
+  }
+
+
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 2;
+
+  // Отметки на оси X
+  for (let x = -canvasWidth; x <= canvasWidth; x += step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(x, cy - 5); // верхняя точка палочки
+    ctx.lineTo(x, cy + 5); // нижняя точка палочки
+    ctx.stroke();
+  }
+
+  // Отметки на оси Y
+  for (let y = -canvasHeight; y <= canvasHeight; y += step * scale) {
+    ctx.beginPath();
+    ctx.moveTo(cx - 5, y); // левая точка палочки
+    ctx.lineTo(cx + 5, y); // правая точка палочки
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+
+
+window.onload = function() {
+  drawFigure(0); 
+}
