@@ -12,6 +12,7 @@
       background-color: rgb(244, 244, 244);
       font-family: Arial, sans-serif;
       color: #000;
+      
     }
 
     .header {
@@ -39,19 +40,42 @@
       text-align: right;
     }
 
-    .Input-Cell {
-      height: 50vh;
-    }
 
     .Right-Row {
       width: 30%;
-      padding: 20px;
+
       box-sizing: border-box;
     }
 
     .input-form {
-      max-width: 400px;
-      margin: 1rem auto;
+      max-width: 50vh;
+      min-width: 40vh;
+      margin-top: 6rem;
+      margin-left: 25vh;
+      padding: 1rem 2rem;
+      background: #f7f7f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    }
+    .graphic-box{
+        max-width: 50vh;
+        min-height: 60vh;
+      margin-top: 5rem;
+      margin-left: 1rem;
+      margin-right: 10rem;
+      display: flex;
+      align-items: center;
+      padding: 3rem 2rem;
+      background: #f7f7f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    }
+    .table-box{
+        max-width: 50vh;
+      min-width: 40vh;
+      min-height: 20vh;
+      margin-left: 25vh;
+      margin-top: 5rem;
       padding: 1rem 2rem;
       background: #f7f7f9;
       border-radius: 10px;
@@ -69,6 +93,15 @@
       color: #234c6b;
       margin-bottom: 0.5rem;
     }
+    .myTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+ .myTable th, .myTable td {
+  border: 1px solid #aaa;
+  padding: 8px;
+  text-align: center;
+}
 
     .input-form label {
       margin-right: 1rem;
@@ -103,7 +136,7 @@
       font-size: 1rem;
       cursor: pointer;
       margin-top: 1rem;
-      transition: background 0.2s;
+      transition:  0.2s;
     }
 
     .input-form button:hover {
@@ -126,7 +159,7 @@
     </tr>
 
     <tr>
-      <td class="Input-Cell">
+      <td>
         <form class="input-form">
           <fieldset>
             <legend>Изменение X:</legend>
@@ -153,16 +186,41 @@
             <label><input type="radio" name="r" value="2.5"> 2.5</label>
             <label><input type="radio" name="r" value="3"> 3</label>
           </fieldset>
-
+          
           <button type="submit">Отправить</button>
         </form>
-        <script src="../JS/Manager.js"></script>
+        <div class = "table-box">
+            <table class="myTable">
+                <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Hit</th>
+                        <th>Time</th>
+                        <th>Ex_Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>22</td>
+                        <td>21</td>
+                        <td>21</td>
+                        <td>21</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
       </td>
+      
       <td class="Right-Row">
+        <div class ="graphic-box">
         <canvas id="myCanvas" width="400" height="400"></canvas>
+        </div>
       </td>
     </tr>
+
   </table>
 </body>
-
+<script src="../JS/Manager.js"></script>
 </html>
