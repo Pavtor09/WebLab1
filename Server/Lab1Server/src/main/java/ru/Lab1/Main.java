@@ -1,5 +1,7 @@
 package ru.Lab1;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -12,7 +14,7 @@ public class Main {
         System.setProperty("FCGI_PORT", "64548");
         while (fcgi.FCGIaccept() >= 0) {
 
-            long t0 = System.nanoTime();
+            long tex = System.nanoTime();
 
 
             Parser parser = new Parser();
@@ -67,12 +69,19 @@ public class Main {
                     //проверяем, что все необходимые поля заполнились
                     if (inputObj.CheckNull())
                     {
-                        SendError.writeJsonError(422,"Could not parse incoming Json");
+                        SendError.writeJsonError(422,"Could not parse incoming Json, some fields are NULL");
                         continue;
                     }
-                    //проверяем попадание
-                    inputObj.CalculateHit();
+                    Validate validChecker = new Validate();
+                    //если инпут невалидный валидатор отправляет ответ серверу и возвращает false
+                    if (!validChecker.isValid(inputObj))
+                    {continue;}
+                    // валидация
 
+                    inputObj.CalculateHit();                    //проверяем попадание
+
+                    inputObj.SetExTime(BigDecimal.valueOf((double) (System.nanoTime() - tex) / 1000000).setScale(3, RoundingMode.HALF_UP).doubleValue());
+//                    inputObj.SetNowTime();
                     String JsAns;//строка в которой будет ответ json
 
                     //пытаемся конвертнуть объект в json

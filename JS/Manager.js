@@ -1,15 +1,27 @@
 document.querySelector('.input-form').addEventListener('submit', function(e) {
   e.preventDefault(); // Отключаем стандартную отправку формы
+  // Показываем стандартную ошибку формы если данные невалидны
+  // Получаем значение Y
+  const yValue = document.querySelector('input[name="y"]').value;
+
+  // Получаем выбранное значение R
+  const rValue = document.querySelector('input[name="r"]:checked')?.value;
+
+  // Проверка именно интервала (-5; 5)
+  if (isNaN(yValue) || yValue <= -5 || yValue >= 5) {
+    alert("Y должен быть внутри интервала (-5; 5)");
+    return;
+  }
 
   // Получаем все отмеченные чекбоксы X
   const xValues = Array.from(document.querySelectorAll('input[name="x"]:checked'))
     .map(cb => cb.value);
 
   // Получаем значение Y
-  const yValue = document.querySelector('input[name="y"]').value;
+  // const yValue = document.querySelector('input[name="y"]').value;
 
-  // Получаем выбранное значение R
-  const rValue = document.querySelector('input[name="r"]:checked')?.value;
+  // // Получаем выбранное значение R
+  // const rValue = document.querySelector('input[name="r"]:checked')?.value;
 
   // Пример вывода в консоль
   console.log('X:', xValues);
@@ -19,6 +31,7 @@ document.querySelector('.input-form').addEventListener('submit', function(e) {
   
   // Здесь можно дальше использовать эти значения для построения графика
 drawFigure(rValue);
+  Send();
 });
 
 function drawFigure(rawR) {
@@ -152,15 +165,10 @@ function drawGrid(ctx, cx, cy, scale, step, canvasWidth, canvasHeight) {
 
 
 window.onload = function() {
-  drawFigure(0); clearTable();
+  drawFigure(0);
+const rows = JSON.parse(localStorage.getItem("tableRows")) || [];
+  renderTable(rows);
 }
-
-// Слушатель для кнопки
-document.getElementById('send').addEventListener('click', function(event) {
-    event.preventDefault(); // Отмена стандартного поведения кнопки (отправка формы)
-    Send();
-    console.log('Кнопка нажата');
-});
 
   document.querySelectorAll('input[name="r"]').forEach(radio => {
     radio.addEventListener('change', function() {
@@ -208,8 +216,16 @@ function Send() {
         body: JSON.stringify(data)
     })
     .then(response => {
-        if (!response.ok) throw new Error('Ошибка сети: ' + response.status);
+         if (!response.ok) {
+      // Попытка получить текст ошибки
+      return response.text().then(text => {
+        // Показываем ошибку пользователю (можно alert или блок)
+        alert(`Ошибка: ${response.status} ${response.statusText}\n${text}`);
+        throw new Error(text || 'Ошибка сервера');
+      });
+    }
         return response.json();
+      
     })
     .then(data => {
         populateTable(data);
@@ -218,51 +234,102 @@ function Send() {
 }
 
 function populateTable(data) {
+
+  
   const tbody = document.querySelector('.myTable tbody');
   // tbody.innerHTML = ''; // очищаем таблицу перед заполнением
-
+  let rows = JSON.parse(localStorage.getItem("tableRows")) || [];
   data.x.forEach((xVal, index) => {
-    const row = document.createElement('tr');
-
-    // x - массив, берем из data.x по индексам
-    const xCell = document.createElement('td');
-    xCell.textContent = xVal; // или, если нужно, можно вывести все x через запятую
-    row.appendChild(xCell);
-
-    // y
-    const yCell = document.createElement('td');
-    yCell.textContent = data.y; // предполагается, что y — число или строка
-    row.appendChild(yCell);
-
-    // R
-    const RCell = document.createElement('td');
-    RCell.textContent = data.R;
-    row.appendChild(RCell);
-
-    // Hit - массив булевых, берем по индексу или выводим весь массив
-    const hitCell = document.createElement('td');
-    hitCell.textContent = data.Hit ? (data.Hit[index] ? 'true' : 'false') : '';
-    row.appendChild(hitCell);
-
-    // Time
-    const timeCell = document.createElement('td');
-    timeCell.textContent = data.Time; // передать как строку
-    row.appendChild(timeCell);
-
-    // executionTime
-    const execCell = document.createElement('td');
-    execCell.textContent = data.Ex_Time;
-    row.appendChild(execCell);
-
-    tbody.appendChild(row);
+    rows.push({
+      x: xVal,
+      y: data.y,
+      R: data.R,
+      Hit: data.Hit ? data.Hit[index] : '',
+      Time: getCurrentTimeString(),
+      Ex_Time: data.Ex_Time
+    });
   });
+
+  // data.x.forEach((xVal, index) => {
+  //   const row = document.createElement('tr');
+
+  //   // x - массив, берем из data.x по индексам
+  //   const xCell = document.createElement('td');
+  //   xCell.textContent = xVal; // или, если нужно, можно вывести все x через запятую
+  //   row.appendChild(xCell);
+
+  //   // y
+  //   const yCell = document.createElement('td');
+  //   yCell.textContent = data.y; // предполагается, что y — число или строка
+  //   row.appendChild(yCell);
+
+  //   // R
+  //   const RCell = document.createElement('td');
+  //   RCell.textContent = data.R;
+  //   row.appendChild(RCell);
+
+  //   // Hit - массив булевых, берем по индексу или выводим весь массив
+  //   const hitCell = document.createElement('td');
+  //   hitCell.textContent = data.Hit ? (data.Hit[index] ? 'true' : 'false') : '';
+  //   row.appendChild(hitCell);
+
+  //   // Time
+  //   const timeCell = document.createElement('td');
+  //   timeCell.textContent = getCurrentTimeString(); // передать как строку
+  //   row.appendChild(timeCell);
+
+  //   // executionTime
+  //   const execCell = document.createElement('td');
+  //   execCell.textContent = data.Ex_Time;
+  //   row.appendChild(execCell);
+
+  //   tbody.appendChild(row);
+  // });
+    // сохраняем обновлённые строки обратно
+  localStorage.setItem("tableRows", JSON.stringify(rows));
+
+  // отображаем все строки
+  renderTable(rows);
 }
 
 function clearTable()
 {
-   const tbody = document.querySelector('.myTable tbody');
+  const tbody = document.querySelector('.myTable tbody');
   tbody.innerHTML = ''; // очищаем таблицу перед заполнением
+  localStorage.removeItem("tableRows");
+  renderTable([]);
 }
 
+function getCurrentTimeString() {
+  const now = new Date();
 
+  const pad = (num) => num.toString().padStart(2, '0');
+
+  const hours = pad(now.getHours());
+  const minutes = pad(now.getMinutes());
+  const seconds = pad(now.getSeconds());
+
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+document.getElementById('clear').addEventListener('click', () => {
+clearTable();
+});
+
+function renderTable(rows) {
+  const tbody = document.querySelector('.myTable tbody');
+  tbody.innerHTML = '';
+  rows.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.x}</td>
+      <td>${row.y}</td>
+      <td>${row.R}</td>
+      <td>${row.Hit === true ? 'true' : row.Hit === false ? 'false' : ''}</td>
+      <td>${row.Time}</td>
+      <td>${row.Ex_Time}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
 

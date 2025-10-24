@@ -13,10 +13,10 @@ public class DataObj {
     private BigDecimal y;
     @JsonProperty("R")
     private BigDecimal R;
-    @JsonProperty("Time")
-    private LocalTime time;
+//    @JsonProperty("Time")
+//    private LocalTime time;
     @JsonProperty("Ex_Time")
-    private long executionTime;
+    private double executionTime;
     @JsonProperty("Hit")
     private boolean[] hit;
 
@@ -25,11 +25,11 @@ public class DataObj {
         return this.x == null || this.y == null || this.R == null;
     }
 
-    public void SetNowTime()
-    {
-        this.time = LocalTime.now();
-    }
-    public void SetExTime(long time)
+//    public void SetNowTime()
+//    {
+//        this.time = LocalTime.now();
+//    }
+    public void SetExTime(double time)
     {
         this.executionTime = time;
     }
