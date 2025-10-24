@@ -152,5 +152,117 @@ function drawGrid(ctx, cx, cy, scale, step, canvasWidth, canvasHeight) {
 
 
 window.onload = function() {
-  drawFigure(0); 
+  drawFigure(0); clearTable();
 }
+
+// Слушатель для кнопки
+document.getElementById('send').addEventListener('click', function(event) {
+    event.preventDefault(); // Отмена стандартного поведения кнопки (отправка формы)
+    Send();
+    console.log('Кнопка нажата');
+});
+
+  document.querySelectorAll('input[name="r"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.checked) {
+            drawFigure(document.querySelector('input[name="r"]:checked')?.value);
+        }
+    });
+});
+  
+
+// function Send()
+// {
+//    const xValues = Array.from(document.querySelectorAll('input[name="x"]:checked')).map(cb => cb.value);
+
+//     // Получаем значение Y (input type="number")
+//     const yValue = document.querySelector('input[name="y"]').value;
+
+//     // Получаем выбранное значение R (радиокнопки)
+//     const RValue = document.querySelector('input[name="r"]:checked')?.value;
+//   const data = {x: xValues, y: yValue, R: RValue}
+//   fetch('/calculate', {
+//   method: 'POST',
+//   headers: { 'Content-Type': 'application/json' },
+//   body: JSON.stringify(data)
+// })
+// .then(response => {
+//     if (!response.ok) throw new Error('Ошибка сети: ' + response.status)
+//     else data => populateTable(data);
+//     return response.json();
+// })
+// .catch(error => console.error('Ошибка:', error));
+
+// }
+
+function Send() {
+    const xValues = Array.from(document.querySelectorAll('input[name="x"]:checked')).map(cb => cb.value);
+    const yValue = document.querySelector('input[name="y"]').value;
+    const RValue = document.querySelector('input[name="r"]:checked')?.value;
+
+    const data = {x: xValues, y: yValue, R: RValue};
+
+    fetch('/calculate', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Ошибка сети: ' + response.status);
+        return response.json();
+    })
+    .then(data => {
+        populateTable(data);
+    })
+    .catch(error => console.error('Ошибка:', error));
+}
+
+function populateTable(data) {
+  const tbody = document.querySelector('.myTable tbody');
+  // tbody.innerHTML = ''; // очищаем таблицу перед заполнением
+
+  data.x.forEach((xVal, index) => {
+    const row = document.createElement('tr');
+
+    // x - массив, берем из data.x по индексам
+    const xCell = document.createElement('td');
+    xCell.textContent = xVal; // или, если нужно, можно вывести все x через запятую
+    row.appendChild(xCell);
+
+    // y
+    const yCell = document.createElement('td');
+    yCell.textContent = data.y; // предполагается, что y — число или строка
+    row.appendChild(yCell);
+
+    // R
+    const RCell = document.createElement('td');
+    RCell.textContent = data.R;
+    row.appendChild(RCell);
+
+    // Hit - массив булевых, берем по индексу или выводим весь массив
+    const hitCell = document.createElement('td');
+    hitCell.textContent = data.Hit ? (data.Hit[index] ? 'true' : 'false') : '';
+    row.appendChild(hitCell);
+
+    // Time
+    const timeCell = document.createElement('td');
+    timeCell.textContent = data.Time; // передать как строку
+    row.appendChild(timeCell);
+
+    // executionTime
+    const execCell = document.createElement('td');
+    execCell.textContent = data.Ex_Time;
+    row.appendChild(execCell);
+
+    tbody.appendChild(row);
+  });
+}
+
+function clearTable()
+{
+   const tbody = document.querySelector('.myTable tbody');
+  tbody.innerHTML = ''; // очищаем таблицу перед заполнением
+}
+
+
+

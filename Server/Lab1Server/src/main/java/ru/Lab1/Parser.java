@@ -1,33 +1,21 @@
 package ru.Lab1;
 
+import com.fastcgi.FCGIInterface;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class JParser {
-    public Map<String, String> JsonParser(String s) {
-        Map<String, String> map = new LinkedHashMap<>();
-        if (s == null || s.isEmpty()) return map;
-        String[] pairs = s.replaceAll("}","").replaceAll("\\{","").split(",");
-        for (String p : pairs) {
-            String[] splitPair = p.replaceAll("\"","").trim().split(":");
-            try
-            {
-                String k = splitPair[0];
-                String v = splitPair[1];
-                k = urlDecode(k);
-                v = urlDecode(v);
-                System.out.println(k+" "+v);
-                if (!k.isEmpty()) map.put(k, v);
-            }
-            catch (Exception e)
-            {
-                return map;
-            }
-
-        }
-        return map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+public class Parser {
+    public DataObj JsonParser(String s) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        DataObj inObj = mapper.readValue(s,DataObj.class);
+       return inObj;
     }
 
     // Безопасное URL-декодирование
@@ -38,4 +26,21 @@ public class JParser {
             return s;
         }
     }
+    public int parseIntOrDefault(String s, int def) {
+        try { return Integer.parseInt(s); } catch (Exception e) { return def; }
+    }
+    public byte[] readExact(int contentLength) throws IOException {
+        byte[] buf = new byte[contentLength];
+        int off = 0;
+        while (off < contentLength) {
+            int r = FCGIInterface.request.inStream.read(buf, off, contentLength - off);
+            if (r < 0) break;
+            off += r;
+        }
+        return buf;
+    }
+
+
+
+
 }

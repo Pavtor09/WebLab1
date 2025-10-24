@@ -1,7 +1,9 @@
 package ru.Lab1;
 
-public enum JsonCodes {
-    private static String httpStatusText(int code) {
+public class HttpCodes {
+
+
+    public String httpStatusText(int code) {
         return switch (code) {
             case 200 -> "OK";
             case 400 -> "Bad Request";
@@ -10,4 +12,6 @@ public enum JsonCodes {
             case 415 -> "Unsupported Media Type";
             default -> "Error";
         };
+    }
 }
+
